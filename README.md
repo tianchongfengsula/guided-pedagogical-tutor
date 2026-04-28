@@ -1,5 +1,4 @@
-# LetranGPT
-> A Guided Pedagogical Tutor.
+# A Guided Pedagogical Tutor.
 
 ## Running localy
 Prerequisites

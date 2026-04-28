@@ -1,0 +1,16 @@
+<!-- app/views/chats/_loading.html.erb -->
+<div class="flex gap-3" id="loading-indicator">
+  
+  <div class="flex-shrink-0">
+    <%= image_tag 'bot_icon.jpg', class: 'w-10 h-10 rounded-full object-cover' %>
+  </div>
+
+  <div class="bg-white border rounded-2xl px-4 py-3 max-w-2xl shadow-sm">
+    <div class="space-y-2">
+      <div class="h-4 loading-skeleton rounded w-3/4"></div>
+      <div class="h-4 loading-skeleton rounded w-full"></div>
+      <div class="h-4 loading-skeleton rounded w-2/3"></div>
+    </div>
+  </div>
+
+</div>

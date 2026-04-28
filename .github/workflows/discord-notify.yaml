@@ -1,0 +1,49 @@
+name: Discord Notify
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Send Discord embed
+        env:
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          REPO_URL="https://github.com/${{ github.repository }}"
+          ACTOR="${{ github.actor }}"
+          BRANCH="${{ github.ref_name }}"
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          COMMIT_SHA="${{ github.sha }}"
+          SHORT_SHA=$(echo "$COMMIT_SHA" | cut -c1-7)
+          COMMIT_URL="$REPO_URL/commit/$COMMIT_SHA"
+
+          DESC=$(printf "Greetings @everyone !\nWe have now another news!\nCheck it out! teehee~\nPush by %s on branch \`%s\`" "$ACTOR" "$BRANCH")
+          FIELD_VALUE=$(printf "[%s](%s) %s" "\`$SHORT_SHA\`" "$COMMIT_URL" "$COMMIT_MSG")
+
+          embed=$(jq -n \
+            --arg title "(｡◕‿‿◕｡) New push to ${{ github.repository }}" \
+            --arg url "$REPO_URL" \
+            --arg desc "$DESC" \
+            --arg field_name " ᕕ(⌐■_■)ᕗ ♪♬ Commit message" \
+            --arg field_val "$FIELD_VALUE" \
+            --arg color "3066993" \
+            '{
+              embeds: [{
+                title: $title,
+                url: $url,
+                description: $desc,
+                fields: [{ name: $field_name, value: $field_val }],
+                color: ($color | tonumber),
+                footer: { text: "GitHub Push" }
+              }]
+            }')
+
+          curl -i -X POST -H "Content-Type: application/json" -d "$embed" "$WEBHOOK_URL"

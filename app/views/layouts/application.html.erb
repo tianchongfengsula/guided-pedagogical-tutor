@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= content_for(:title) || "Letrangpt" %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Letrangpt">
+  <meta name="mobile-web-app-capable" content="yes">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= yield :head %>
+
+  <!-- 1️⃣ IMPORT MAP – must be the *first* script NOTE: This fixes the firefox's weird quirk yelling about import maps
+        TODO: To be anaylze if this setup might impact the app's perfomance
+  -->
+  <%= javascript_importmap_tags %>
+  <!-- 2️⃣ TURBO – loaded after the map, deferred NOTE: Part of the firefox's weird quirks
+        TODO: To be anaylze if this setup might impact the app's perfomance
+  -->
+  <%= javascript_include_tag "turbo.min",
+        type: "module",
+        defer: true,
+        "data-turbo-track": "reload" %>
+      <!-- 3️⃣ YOUR APPLICATION BUNDLE – also deferred NOTE: Part of firefox's wierd quirk
+        TODO: To be anaylze if this setup might impact the app's perfomance
+      -->
+  <%= javascript_include_tag "application",
+        type: "module",
+        defer: true %>
+
+  <link rel="icon" href="/icon.png" type="image/png">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.png">
+
+  <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+</head>
+
+  <body class="bg-cover bg-center bg-fixed h-screen overflow-hidden"
+      style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('<%= asset_path("bg_building.jpg") %>')">
+    <main class="h-full w-full flex items-center justify-center p-4 md:p-8">
+      <%= yield %>
+    </main>
+</body>
+</html>
+

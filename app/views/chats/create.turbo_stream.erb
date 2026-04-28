@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "temp-loader" do %>
+  <%= render partial: "message", locals: { message: session[:messages].last } %>
+<% end %>

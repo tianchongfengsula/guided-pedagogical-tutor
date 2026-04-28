@@ -1,0 +1,76 @@
+<div class="h-[90vh] w-full max-w-5xl flex flex-col bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden" data-controller="chat">
+
+  <div class="px-6 py-4 flex justify-between items-center border-b border-white/10 bg-white/5">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full p-0.5 bg-gradient-to-tr from-blue-500 via-purple-500 to-red-500">
+        <div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+          <%= image_tag 'letran_icon.png', class: 'w-full h-full object-cover' %>
+        </div>
+      </div>
+      <div>
+        <h1 class="text-lg font-bold text-white tracking-tight">Letran GPT</h1>
+        <div class="flex items-center gap-1">
+          <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+          <span class="text-[10px] text-gray-300 uppercase tracking-widest">Using <%= @model_name %></span>
+        </div>
+      </div>
+    </div>
+    <%= button_to clear_path, method: :delete, class: "p-2 hover:bg-white/10 rounded-full transition-all group" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 group-hover:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+      </svg>
+    <% end %>
+  </div>
+
+  <div class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar" data-chat-target="container">
+    <%= turbo_stream_from "messages" %>
+    <div class="max-w-4xl mx-auto" id="messages">
+      <%= render @messages %>
+    </div>
+  </div>
+
+  <div class="p-6">
+    <div class="max-w-4xl mx-auto">
+<%= form_with url: messages_path, id: "chat-form", class: "relative group" do |f| %>
+        <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 rounded-2xl blur opacity-20 group-focus-within:opacity-50 transition duration-500"></div>
+        <div class="relative flex items-end gap-2 bg-[#202124]/90 border border-white/10 rounded-2xl p-2 pl-4">
+          <%= f.text_area :message,
+              placeholder: "Hi",
+              rows: 1,
+              data: { chat_target: "input", action: "keydown->chat#handleEnter" },
+              class: "flex-1 bg-transparent border-none text-white placeholder-gray-400 py-3 focus:ring-0 resize-none text-base" %>
+<button type="button" 
+        data-chat-target="submitBtn"
+        data-action="click->chat#submitForm"
+        class="p-3 bg-white/10 hover:bg-white text-white hover:text-black rounded-xl transition-all">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rotate-90" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+  </svg>
+</button>
+
+<button type="button"
+        data-chat-target="stopBtn"
+        data-action="click->chat#stopStreaming"
+        class="hidden p-3 bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white rounded-xl transition-all">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+    <rect x="6" y="6" width="12" height="12" rx="2"/>
+  </svg>
+</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <template data-chat-target="userTemplate">
+  </template>
+
+  <template data-chat-target="loaderTemplate">
+    <div class="flex gap-4 mb-6" id="temp-loader">
+      <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-400 to-red-400 animate-spin-slow"></div>
+      <div class="flex-1 space-y-2 max-w-[70%]">
+        <div class="h-2 bg-white/10 rounded-full w-full animate-pulse"></div>
+        <div class="h-2 bg-white/10 rounded-full w-5/6 animate-pulse"></div>
+      </div>
+    </div>
+  </template>
+</div>

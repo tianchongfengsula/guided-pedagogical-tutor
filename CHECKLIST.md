@@ -12,6 +12,9 @@
 On set quiz, it might need to create exam_controller for another model that strictly accepts json(or other good thingy formats to gib it into the frontend?
 And same functional of streaming data of a user sending chats, but instead it's a blob of json-questions that answers by the user, and the llm will check it.??
 
+??? -> Can ollama inference two models at the same time?
+
 ## Add Unit tests
 1. ping to the ollama api
+2. check if it is the input field have prob
 

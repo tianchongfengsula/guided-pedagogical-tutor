@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resource :session
+  resources :passwords, param: :token
   root "chats#index"
   post "messages", to: "chats#create"
   delete "clear", to: "chats#clear"

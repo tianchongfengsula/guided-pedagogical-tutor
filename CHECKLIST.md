@@ -1,5 +1,9 @@
 # CHECKLIST
 
+## WEEK'S
+1st -> User accounts and login page
+2nd -> quiz generator
+
 ## add animated thingy for tutor?
 
 ## add file uploads for llms to eat

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root "chats#index"
   post "messages", to: "chats#create"
   delete "clear", to: "chats#clear"
-delete 'stop', to: 'chats#stop', as: :stop
+delete "stop", to: "chats#stop", as: :stop
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

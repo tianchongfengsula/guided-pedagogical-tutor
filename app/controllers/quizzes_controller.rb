@@ -1,4 +1,4 @@
-#NOTE: 試験はひつよないかな？
+# NOTE: 試験はひつよないかな？
 class QuizzesController < ApplicationController
   def index
   end

@@ -78,5 +78,5 @@ Rails.application.configure do
   #
   #
   # NOTE: Don't Touch THIS!
-  #config.hosts.clear
+  # config.hosts.clear
 end

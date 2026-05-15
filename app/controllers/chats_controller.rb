@@ -16,8 +16,8 @@ end
 =end
 
 def create
-  Message.create!(role: 'user', content: params[:message])
-  ai_message = Message.create!(role: 'assistant', content: "")
+  Message.create!(role: "user", content: params[:message])
+  ai_message = Message.create!(role: "assistant", content: "")
   messages = build_messages_with_db
   model = @model_name
 
@@ -50,7 +50,7 @@ def stop
 
   # NOTE: Find the message.rb's after_destroy_commit are connected
   # Clean up any empty assistant messages left behind
-  Message.where(role: 'assistant', content: [nil, ""]).destroy_all
+  Message.where(role: "assistant", content: [ nil, "" ]).destroy_all
 
   head :ok
 end
@@ -93,16 +93,16 @@ end
       Staff data you may reference: #{people_data}
       If something is unknown, say so.
     FULL_PROMPT
-    system_prompt = { 'role' => 'system', 'content' => "#{socratic_prompt}"}
+    system_prompt = { "role" => "system", "content" => "#{socratic_prompt}" }
 
     # Convert DB records to the format Ollama expects
-    history = Message.all.map { |m| { 'role' => m.role, 'content' => m.content } }
-    [system_prompt] + history
+    history = Message.all.map { |m| { "role" => m.role, "content" => m.content } }
+    [ system_prompt ] + history
   end
 
   def set_display_model_name
-    @model_name = 'lfm2.5-thinking'
-    #@model_name = 'llama3'
-    #@model_name = 'llama3.2:3b'
+    @model_name = "lfm2.5-thinking"
+    # @model_name = 'llama3'
+    # @model_name = 'llama3.2:3b'
   end
 end
